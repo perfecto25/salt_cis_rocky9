@@ -1,0 +1,1 @@
+# Saltstack CIS Benchmark Rocky 9 Linux
