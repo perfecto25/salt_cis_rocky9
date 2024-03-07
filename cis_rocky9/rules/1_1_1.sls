@@ -1,10 +1,5 @@
 # 1.1.1 Disable unused filesystems
 
-# *************************  1.1.1.1 - 1.1.1.2
-# Ensure mounting of squashfs, udf disabled
-# Rationale:
-# Removng support for unneeded filesystem types reduces the local attack surface of the
-# system. If this filesystem type is not needed, disable it.
 
 {% set rule = '(1.1.1)' %}
 
