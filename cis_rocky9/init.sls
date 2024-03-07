@@ -2,8 +2,31 @@
 
 {% set rules = {
     "1.1.1":    {"Disable unused filesystems": True},
-    "1.1.2.1":  {"Ensure separate partition exists for /tmp": True},
-    # "1.1.2.2":  {"Ensure nodev, nosuid, noexec option set on /tmp partition": True}, 
+    "1.1.2":  {"Ensure separate partition exists for /tmp": True},
+    "1.1.3":  {"Ensure separate partition exists for /var": True},  
+  
+} %}
+
+{% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
+
+include:
+{% for rule in rules %}
+{% for desc, check in rules[rule].items() %}
+{% if check %}
+
+{% if rules[rule] %}
+    {% if not rule in salt["pillar.get"]("cis:ignore:rules") %}
+    - formula.cis_rocky9.rules.{{ rule|replace(".", "_") }}
+    {% endif %}
+{% endif %}
+
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% endif %}
+
+  # "1.1.2.2":  {"Ensure nodev, nosuid, noexec option set on /tmp partition": True}, 
     # "1.1.3.1":  {"Ensure separate partition exists for /var": True},  
     # "1.1.3.2":  {"Ensure nodev, nosuid, noexec option set on /var partition": True},
     # "1.1.4.1":  {"Ensure separate partition exists for /var/tmp": True},
@@ -220,24 +243,3 @@
     # "6.2.14": {"Ensure no local interactive user has .forward files": True},
     # "6.2.15": {"Ensure no local interactive user has .rhosts files": True},
     # "6.2.16": {"Ensure local interactive user dot files are not group or world writable": True},
-
-} %}
-
-{% if grains["osfamily"] == "RedHat" and grains["osmajorrelease"] == "9" %}
-
-include:
-{% for rule in rules %}
-{% for desc, check in rules[rule].items() %}
-{% if check %}
-
-{% if rules[rule] %}
-    {% if not rule in salt["pillar.get"]("cis:ignore:rules") %}
-    - cis.rules.{{ rule|replace(".", "_") }}
-    {% endif %}
-{% endif %}
-
-{% endif %}
-{% endfor %}
-{% endfor %}
-
-{% endif %}
