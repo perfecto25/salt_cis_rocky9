@@ -3,8 +3,9 @@
 {% set rules = {
     "1.1.1":    {"Disable unused filesystems": True},
     "1.1.2":  {"Ensure separate partition exists for /tmp": True},
-    "1.1.3":  {"Ensure separate partition exists for /var": True},  
-  
+    "1.1.3":  {"Ensure separate partition exists for /var": True},
+    "1.1.4":  {"Ensure separate partition exists for /var/tmp": True},  
+    "1.1.5":  {"Ensure separate partition exists for /var/log": True},
 } %}
 
 {% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
@@ -31,7 +32,7 @@ include:
     # "1.1.3.2":  {"Ensure nodev, nosuid, noexec option set on /var partition": True},
     # "1.1.4.1":  {"Ensure separate partition exists for /var/tmp": True},
     # "1.1.4.2":  {"Ensure nodev, nosuid, noexec option set on /var/tmp partition": True},
-    # "1.1.5.1":  {"Ensure separate partition exists for /var/log": True},
+    # 
     # "1.1.5.2":  {"Ensure nodev, nosuid, noexec option set on /var/log partition": True},
     # "1.1.6.1":  {"Ensure separate partition exists for /var/log/audit": True},
     # "1.1.6.2":  {"Ensure nodev, nosuid, noexec option set on /var/log/audit partition": True},

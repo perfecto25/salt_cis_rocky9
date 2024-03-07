@@ -1,11 +1,11 @@
-# 1.1.3 - configure /var
-# 1.1.3.1 - ensure separate partition exists for /var
-# 1.1.3.2 - ensure nodev option set
-# 1.1.3.3 - ensure nosuid option set
+# 1.1.5 - configure /var/log
+# 1.1.5.1 - ensure separate partition for /var/log
+# 1.1.5.2 - ensure nodev option
+# 1.1.5.3 - ensure noexec option
+# 1.1.5.4 - ensure nosuid option
 
-
-{% set rule = '(1.1.3)' %}
-{% set mnt = '/var' %}
+{% set rule = '(1.1.5)' %}
+{% set mnt = '/var/log' %}
 
 {% if salt['mount.is_mounted'](mnt) %}
   {% set options = salt['mount.fstab']()[mnt]['opts'] %}

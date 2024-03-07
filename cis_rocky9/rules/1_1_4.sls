@@ -1,11 +1,12 @@
-# 1.1.3 - configure /var
-# 1.1.3.1 - ensure separate partition exists for /var
-# 1.1.3.2 - ensure nodev option set
-# 1.1.3.3 - ensure nosuid option set
+# 1.1.4 - configure /var/tmp
+# 1.1.4.1 - ensure separate partition exists for /var/tmp
+# 1.1.4.2 - ensure noexec option set
+# 1.1.4.3 - ensure nosuid option set
+# 1.1.4.4 - ensure nodev option set
 
 
-{% set rule = '(1.1.3)' %}
-{% set mnt = '/var' %}
+{% set rule = '(1.1.4)' %}
+{% set mnt = '/var/tmp' %}
 
 {% if salt['mount.is_mounted'](mnt) %}
   {% set options = salt['mount.fstab']()[mnt]['opts'] %}
