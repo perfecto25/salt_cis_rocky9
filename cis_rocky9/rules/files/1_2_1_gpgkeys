@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if ! rpm -q gpg-pubkey 
+then
+  echo "Error getting gpg-pubkeys"
+  exit 1
+fi
+
+
+for RPM_PACKAGE in $(rpm -q gpg-pubkey)
+do
+  echo "RPM: ${RPM_PACKAGE}"
+  RPM_SUMMARY=$(rpm -q --queryformat "%{SUMMARY}" "${RPM_PACKAGE}")
+  RPM_PACKAGER=$(rpm -q --queryformat "%{PACKAGER}" "${RPM_PACKAGE}")
+  RPM_DATE=$(date +%Y-%m-%d -d "1970-1-1+$((0x$(rpm -q --queryformat "%{RELEASE}" "${RPM_PACKAGE}") ))sec")
+  RPM_KEY_ID=$(rpm -q --queryformat "%{VERSION}" "${RPM_PACKAGE}")
+  echo "Packager: ${RPM_PACKAGER}
+  Summary: ${RPM_SUMMARY}
+  Creation date: ${RPM_DATE}
+  Key ID: ${RPM_KEY_ID}"
+done

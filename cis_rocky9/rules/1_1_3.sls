@@ -7,12 +7,13 @@
 {% set rule = '(1.1.3)' %}
 {% set mnt = '/var' %}
 
-{% if salt['mount.is_mounted'](mnt) %}
-  {% set options = salt['mount.fstab']()[mnt]['opts'] %}
-  {% set fstype = salt['mount.fstab']()[mnt]['fstype'] %}
-  {% set device = salt['mount.fstab']()[mnt]['device'] %}
+{% if salt['mount.is_mounted'](mnt) %}  # mnt
 
-{% if 'nosuid' in options and 'noexec' in options and 'nodev' in options %}
+{% set options = salt['mount.fstab']()[mnt]['opts'] %}
+{% set fstype = salt['mount.fstab']()[mnt]['fstype'] %}
+{% set device = salt['mount.fstab']()[mnt]['device'] %}
+
+{% if 'nosuid' in options and 'noexec' in options and 'nodev' in options %} # nosuid
 
 "{{rule}} {{mnt}} nosuid,nodev,noexec":
   test.succeed_without_changes:
@@ -26,7 +27,7 @@
     - device: {{device}}
     - fstype: {{fstype}}
     - mkmnt: True
-    - opts:  defaults,rw,nodev,noexec,nosuid,seclabel
+    - opts:  defaults,rw,nodev,noexec,nosuid
     - persist: True
     - user: root
 
@@ -36,6 +37,6 @@
 
 "{{rule}} {{mnt}} nosuid,nodev,noexec":
   test.fail_without_changes:
-    - name: {{rule}} {{mnt}} is not mounted as separate partition, unable to check nosuid,nodev,noexec.
+    - name: {{rule}} {{mnt}} is NOT mounted as separate partition, unable to check nosuid,nodev,noexec !!!
 
 {% endif %}
