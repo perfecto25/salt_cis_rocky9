@@ -10,36 +10,33 @@
 {% if salt['mount.is_mounted']('/tmp') %}
 
 {{ rule }} /tmp on separate partition:
-    test.succeed_without_changes:
-        - name: {{ rule }} /tmp is already mounted on separate partition.
+  test.succeed_without_changes:
+    - name: {{ rule }} /tmp is already mounted on separate partition.
 
 {% else %}
 
 {{ rule }} tmp mount unmask:
-    service.unmasked:
-        - name: tmp.mount
+  service.unmasked:
+    - name: tmp.mount
 
 {{ rule }} tmp mount enabled:
-    service.enabled:
-        - name: tmp.mount
+  service.enabled:
+    - name: tmp.mount
 
 {{ rule }} tmp mount config:
-    file.managed:
-        - name: /etc/systemd/system/local-fs.target.wants/tmp.mount
-        - source: salt://{{ slspath }}/files/1_1_2_tmp_mount
-        - user: root
-        - group: root
-        - mode: 644
+  file.managed:
+    - name: /etc/systemd/system/local-fs.target.wants/tmp.mount
+    - source: salt://{{ slspath }}/files/1_1_2_tmp_mount
+    - user: root
+    - group: root
+    - mode: "0644"
 
 {{ rule }} /tmp on separate partition:
-    mount.mounted:
+  mount.mounted:
     - name: /tmp
     - device: tmpfs
     - fstype: tmpfs 
     - mkmnt: True
     - persist: True
-    - opts:
-        - nodev
-        - nosuid
-        - noexec
+    - opts: default,nodev,nosuid,noexec
 {% endif %}

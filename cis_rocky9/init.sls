@@ -1,44 +1,28 @@
 ## Global Rules (can override via host-specific pillar, see sample.pillar.sls)
 
 {% set rules = {
-    "1.1.1":    {"Disable unused filesystems": True},
-    "1.1.2":  {"Ensure separate partition exists for /tmp": True},
-    "1.1.3":  {"Ensure separate partition exists for /var": True},
-    "1.1.4":  {"Ensure separate partition exists for /var/tmp": True},  
-    "1.1.5":  {"Ensure separate partition exists for /var/log": True},
+    "1.1.1": "Disable unused filesystems",
+    "1.1.2": "Ensure separate partition exists for /tmp",
+    "1.1.3": "Ensure separate partition exists for /var",
+    "1.1.4": "Ensure separate partition exists for /var/tmp",  
+    "1.1.5": "Ensure separate partition exists for /var/log",
+    "1.1.6": "Ensure separate partition exists for /var/log/audit",
+    "1.1.7": "Ensure separate partition exists for /home",
+    "1.1.8": "Ensure separate partition exists for /dev/shm",
+    "1.2.1": "Ensure GPG keys are configured",
 } %}
 
 {% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
 
 include:
-{% for rule in rules %}
-{% for desc, check in rules[rule].items() %}
-{% if check %}
-
-{% if rules[rule] %}
-    {% if not rule in salt["pillar.get"]("cis:ignore:rules") %}
+{% for rule, desc in rules.items() %}
+  {% if not rule in salt["pillar.get"]("cis:ignore:rules") %}
     - formula.cis_rocky9.rules.{{ rule|replace(".", "_") }}
-    {% endif %}
-{% endif %}
-
-{% endif %}
-{% endfor %}
+  {% endif %}
 {% endfor %}
 
 {% endif %}
 
-  # "1.1.2.2":  {"Ensure nodev, nosuid, noexec option set on /tmp partition": True}, 
-    # "1.1.3.1":  {"Ensure separate partition exists for /var": True},  
-    # "1.1.3.2":  {"Ensure nodev, nosuid, noexec option set on /var partition": True},
-    # "1.1.4.1":  {"Ensure separate partition exists for /var/tmp": True},
-    # "1.1.4.2":  {"Ensure nodev, nosuid, noexec option set on /var/tmp partition": True},
-    # 
-    # "1.1.5.2":  {"Ensure nodev, nosuid, noexec option set on /var/log partition": True},
-    # "1.1.6.1":  {"Ensure separate partition exists for /var/log/audit": True},
-    # "1.1.6.2":  {"Ensure nodev, nosuid, noexec option set on /var/log/audit partition": True},
-    # "1.1.7.1":  {"Ensure separate partition exists from /home": True},
-    # "1.1.7.2":  {"Ensure nodev set on /home": True},
-    # "1.1.7.3":  {"Ensure nosuid set on /home": True},
     # "1.1.8.1":  {"Ensure /dev/shm is a separate partition": True},
     # "1.1.8.2":  {"Ensure nodev, nosuid, noexec option set on /dev/shm partition": True},
     # "1.1.9":    {"Disable USB storage": True},
