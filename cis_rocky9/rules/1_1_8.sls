@@ -9,6 +9,7 @@
 
 {% if salt['mount.is_mounted'](mnt) %} # is_mounted
 
+{% if salt['mount.fstab'][mnt] is defined %} # mnt_exists
 {% if salt['mount.fstab']()[mnt]['opts'] is defined %} # opts
 {% set options = salt['mount.fstab']()[mnt]['opts'] %}
 {% if 'nosuid' in options and 'noexec' in options and 'nodev' in options %} # nosuid,noexec
@@ -44,3 +45,4 @@
     - name: {{rule}} {{mnt}} is NOT mounted as separate partition, unable to check nosuid,nodev,noexec !!!
 
 {% endif %} # is_mounted
+{% endif %} # mnt defined
