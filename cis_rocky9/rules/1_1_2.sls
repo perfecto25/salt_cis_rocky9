@@ -38,5 +38,8 @@
     - fstype: tmpfs 
     - mkmnt: True
     - persist: True
-    - opts: default,nodev,nosuid,noexec
+    - opts:
+        - nodev
+        - nosuid 
+        - noexec
 {% endif %}

@@ -9,32 +9,31 @@
     "1.1.6": "Ensure separate partition exists for /var/log/audit",
     "1.1.7": "Ensure separate partition exists for /home",
     "1.1.8": "Ensure separate partition exists for /dev/shm",
-    "1.2.1": "Ensure GPG keys are configured",
+    "1.2.1": "Ensure GPG check is configured",
+    "1.2.2": "Ensure gpgcheck is globally activated",
+    "1.2.4": "Ensure repo_gpgcheck is globally activated",
+    "1.3.1": "Ensure AIDE is installed",
+    "1.3.2": "Ensure filesystem integrity is regularly checked",
+    "1.3.3": "Ensure cryptographic mechanisms are used to protect the integrity of audit tools",
+    "1.4.1": "Ensure bootloader password is set",
+    "1.4.2": "Ensure permissions on bootloader config are configured",
+    "1.5.1": "Ensure core dump storage is disabled",
+
+
 } %}
 
 {% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
 
 include:
 {% for rule, desc in rules.items() %}
-  {% if not rule in salt["pillar.get"]("cis:ignore:rules") %}
+  {% if not rule in salt["pillar.get"]("cis_rocky9:ignore:rules") %}
     - formula.cis_rocky9.rules.{{ rule|replace(".", "_") }}
   {% endif %}
 {% endfor %}
 
 {% endif %}
 
-    # "1.1.8.1":  {"Ensure /dev/shm is a separate partition": True},
-    # "1.1.8.2":  {"Ensure nodev, nosuid, noexec option set on /dev/shm partition": True},
-    # "1.1.9":    {"Disable USB storage": True},
-    # "1.2.1":    {"Ensure GPG keys are configured": True},
-    # "1.2.2":    {"Ensure gpgcheck is globally activated": True},
-    # "1.2.3":    {"Ensure package manager repositories are configured": True},
-    # "1.2.4":    {"Ensure repo_gpgcheck is globally activated": True},
-    # "1.3.1":    {"AIDE configuration": True},
-    # "1.3.2":    {"Ensure filesystem integrity is regularly checked": True}
-    # "1.3.3":    {"Ensure cryptographic mechanisms are used to protect the integrity of audity tools": True},
-    # "1.4.1":    {"Ensure bootloader password is set": True},
-    # "1.4.2":    {"Ensure permissions on bootloader config are configured": True},
+  
     # "1.5.1":    {"Ensure core dump storage is disabled":  True},
     # "1.5.2":    {"Ensure core dump backtraces are disabled": True},
     # "1.5.3":    {"Ensure address space layout randomization (ASLR) is enabled": True}
