@@ -1,4 +1,4 @@
-# 1.5.1 Ensure core dump backtraces are disabled
+# 1.5.2 Ensure core dump backtraces are disabled
 
 {% set rule = '(1.5.2)' %}
 

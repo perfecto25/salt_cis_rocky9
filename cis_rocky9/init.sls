@@ -18,7 +18,16 @@
     "1.4.1": "Ensure bootloader password is set",
     "1.4.2": "Ensure permissions on bootloader config are configured",
     "1.5.1": "Ensure core dump storage is disabled",
-
+    "1.5.2": "Ensure core dump backtraces are disabled",
+    "1.5.3": "Ensure address space layout randomization (ASLR) is enabled",
+    "1.6.1.1": "Ensure SELinux is installed",
+    "1.6.1.2": "Ensure SELinux is not disabled in bootloader configuration",
+    "1.6.1.3": "Ensure SELinux policy is configured",
+    "1.6.1.4": "Ensure the SELinux mode is not disabled",
+    "1.6.1.6": "Ensure no unconfined services exist",
+    "1.6.1.7": "Ensure SETroubleshoot is not installed",
+    "1.6.1.8": "Ensure the MCS Translation Service (mcstrans) is not installed",
+    "1.7.1": "Ensure message of the day is configured properly",
 
 } %}
 
