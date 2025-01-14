@@ -28,6 +28,9 @@
     "1.6.1.7": "Ensure SETroubleshoot is not installed",
     "1.6.1.8": "Ensure the MCS Translation Service (mcstrans) is not installed",
     "1.7.1": "Ensure message of the day is configured properly",
+    "1.8.1": "Ensure Gnome display manager is removed",
+    "1.8.2": "Ensure GDM login banner is configured",
+    "1.8.3": "Ensure GDM disable-user-list option is enabled",
 
 } %}
 
@@ -43,20 +46,7 @@ include:
 {% endif %}
 
   
-    # "1.5.1":    {"Ensure core dump storage is disabled":  True},
-    # "1.5.2":    {"Ensure core dump backtraces are disabled": True},
-    # "1.5.3":    {"Ensure address space layout randomization (ASLR) is enabled": True}
-    # "1.6.1.1":  {"Ensure SELinux is installed": True},
-    # "1.6.1.2":  {"Ensure SELinux not disabled in bootloader configuration": True},
-    # "1.6.1.3":  {"Ensure SELinux policy is configured": True},
-    # "1.6.1.4":  {"Ensure SELinux mode is not disabled": True},
-    # "1.6.1.5":  {"Ensure SELinux mode is enforcing": True},
-    # "1.6.1.6":  {"Ensure no unconfined services exist": True},
-    # "1.6.1.7":  {"Ensure SETroubleshoot is not installed": True},
-    # "1.6.1.8":  {"Ensure the MCS Translation Service (mcstrans) is not installed": True},
-    # "1.7.1":    {"Ensure motd, banners are configured": True }, # 1.7.1 - 1.7.6
-    # "1.8.1":    {"Ensure GNOME display manager is removed": True},
-    # "1.8.2":    {"Ensure GDM login banner is configured": True },
+    
     # "1.8.3":    {"Ensure GDM disable-user-list option is enabled": True},
     # "1.8.4":    {"Ensure GDM screen locks when user is idle": True},
     # "1.8.5":    {"Ensure GDM screen locks cannot be overridden": True},

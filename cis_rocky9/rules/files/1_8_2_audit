@@ -73,6 +73,6 @@
     echo "PASS"
   else
     echo "FAIL"
-    #[ -n "$l_output" ] && echo -e "\n- Correctly set:\n$l_output\n"
+
   fi
 }
