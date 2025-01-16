@@ -1,6 +1,4 @@
-# 1.3.2 Ensure filesystem integrity is regularly checked
-
-{% set rule = '(1.3.2)' %}
+{% set rule = '(1.3.2) Ensure filesystem integrity is regularly checked' %}
     
 {% set crons = salt['cron.list_tab']('root')['crons'] %}
 {% set cron_present = 'no' %}
@@ -12,11 +10,11 @@
 {% endfor %}
 
 {% if cron_present == 'yes' %}
-{{ rule }} ensure AIDE cron is present:
+{{ rule }}:
   test.succeed_without_changes:
     - name: AIDE cron is present
 {% else %}
-{{ rule }} ensure AIDE cron is present:
+{{ rule }}:
   cron.present:
     - name: /usr/sbin/aide --check
     - identifier: AIDE file integrity check

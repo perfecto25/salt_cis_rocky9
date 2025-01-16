@@ -1,8 +1,6 @@
-# 1.6.1.3 Ensure SELinux policy is configured
+{% set rule = '(1.6.1.3) Ensure SELinux policy is configured' %}
 
-{% set rule = '(1.6.1.3)' %}
-
-{{ rule }} SELinux type is targeted:
+{{ rule }}:
   file.line:
     - name: /etc/selinux/config
     - content: 'SELINUXTYPE=targeted'

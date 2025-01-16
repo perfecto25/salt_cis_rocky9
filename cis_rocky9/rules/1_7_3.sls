@@ -1,12 +1,9 @@
-
-# 1.7.3 Ensure remote login warning banner is configured properly
-
-{% set rule = '(1.7.3)' %}
+{% set rule = '(1.7.3) Ensure remote login warning banner is configured properly' %}
 
 {% set retval = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/issue.net') %}
 
 {% if retval['stdout'] %}
-{{ rule }} Ensure /etc/issue.net is configured correctly:
+{{ rule }} - /etc/issue.net:
   file.managed:
     - name: /etc/issue.net
     - user: root

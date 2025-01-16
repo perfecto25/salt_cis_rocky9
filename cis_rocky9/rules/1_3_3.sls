@@ -1,10 +1,9 @@
-# 1.3.3 Ensure cryptographic mechanisms are used to protect the integrity of audit tools
+{% set rule = '(1.3.3) Ensure cryptographic mechanisms are used to protect the integrity of audit tools' %}
 
-{% set rule = '(1.3.3)' %}
 {% set result = salt['cmd.run_all'](cmd="grep -Ps -- '(\/sbin\/(audit|au)\H*\b)' /etc/aide.conf.d/*.conf /etc/aide.conf", python_shell=True) %}
 
 {% if result['stdout'] %}
-{{ rule }} ensure cryptographic mechanisms are used to protect integrity of audit tools:
+{{ rule }}:
   test.succeed_without_changes:
     - name: {{ rule }} {{result['stdout']}}
 
@@ -22,7 +21,7 @@
     - group: root
     - unless: grep "### cis_start" /etc/aide.conf
 
-{{ rule }} aide audit tools config:
+{{ rule }} - aide audit tools config:
   file.blockreplace:
     - name: /etc/aide.conf
     - marker_start: "### cis_start ###"

@@ -1,8 +1,6 @@
-# 1.6.1.7 Ensure SETroubleshoot is not installed 
-
-{% set rule = '(1.6.1.7)' %}
+{% set rule = '(1.6.1.7) Ensure SETroubleshoot is not installed ' %}
 
 
-{{rule}} remove setroubleshoot pkg:
+{{rule}}:
   pkg.removed:
     - name: setroubleshoot

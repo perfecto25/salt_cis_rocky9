@@ -1,7 +1,4 @@
-# 1.8.5 Ensure GDM screen locks cannot be overridden
-
-
-{% set rule = '(1.8.5)' %}
+{% set rule = '(1.8.5) Ensure GDM screen locks cannot be overridden' %}
 
 {% if "gdm" in salt['pkg.list_pkgs']() %}
 
@@ -10,11 +7,9 @@
 {% do salt.log.error(retval['stdout']) -%}
 
 {% if retval['stdout'] == "FAIL" %}
-{{ rule }} Ensure GDM screen locks when the user is idle:
+{{ rule }}:
   cmd.script:
     - source: salt://{{ slspath }}/files/1_8_5_rem
     - cwd: /opt
-
 {% endif %}
-
 {% endif %}
