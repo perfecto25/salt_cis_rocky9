@@ -1,6 +1,6 @@
 {% set rule = '(2.2.15) Ensure mail transfer agent is configured for local only mode' %}
 
-{% if 'postfix' not in salt['pillar.get']('cis:ignore:packages') and salt['pkg.version']('postfix') %}
+{% if 'postfix' not in salt['pillar.get']('cis_rocky9:ignore:packages') and salt['pkg.version']('postfix') %}
 
 {{ rule }}:
   cmd.run:

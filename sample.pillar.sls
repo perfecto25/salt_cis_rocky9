@@ -20,6 +20,7 @@ cis_rocky9:
       - 1.4.1
       - 1.4.2
       - 1.5.1
+      - 5.2.12 # ssh x11 forwarding
 
     services: # ignore these services
       - chargen-dgram
@@ -84,6 +85,7 @@ cis_rocky9:
 
   default:
     auditd:
+      backlog_limit: 2000
       space_left_action: email
       action_mail_acct: root
       admin_space_left_action: SUSPEND
@@ -94,3 +96,21 @@ cis_rocky9:
       pass_warn_age: 7
     shell:
       timeout: 600
+    sshd:
+      log_level: INFO
+      permit_root_login: prohibit-password
+      hostbased_authentication: no
+      permit_empty_passwords: no
+      permit_user_environment: no
+      ignore_rhosts: yes
+      x11_forwarding: no
+      allow_tcp_forwarding: no
+      banner: /etc/issue.net
+      max_auth_tries: 3
+      max_startups: "10:30:60"
+      max_sessions: 10
+      login_grace_time: 60
+      client_alive_interval: 0
+      client_alive_count_max: 3
+    sudo:
+      log_file: /var/log/sudo.log

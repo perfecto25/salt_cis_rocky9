@@ -25,7 +25,7 @@
 ] 
 %}
 
-{% if pkg not in salt['pillar.get']('cis:ignore:packages') %}
+{% if pkg not in salt['pillar.get']('cis_rocky9:ignore:packages') %}
 
 {{ rule }} ensure package {{ pkg }} is not installed:
   pkg.removed:

@@ -2,6 +2,6 @@
 
 {{ rule }}:
   pkg.installed:
-    - name: nftables
+    - name: audit
 
 
