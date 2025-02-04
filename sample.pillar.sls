@@ -114,3 +114,4 @@ cis_rocky9:
       client_alive_count_max: 3
     sudo:
       log_file: /var/log/sudo.log
+      timeout: 5
