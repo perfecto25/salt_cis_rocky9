@@ -31,6 +31,12 @@
     "1.8.1": "Ensure Gnome display manager is removed",
     "1.8.2": "Ensure GDM login banner is configured",
     "1.8.3": "Ensure GDM disable-user-list option is enabled",
+    "5.1": "Cron configuration",
+    "5.2": "SSHD configuration",
+    "5.3": "Sudo configuration",
+    "5.4": "Authselect configuration",
+    "5.5": "PAM configuration",
+    "5.6": "User accounts and environment",
 
 } %}
 
