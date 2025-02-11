@@ -6,7 +6,7 @@
 {% set filesystems = ['squashfs', 'udf'] %}
 
 {% for fs in filesystems %}
-{% if not fs in salt['pillar.get']('cis:ignore:filesystems') %}
+{% if not fs in salt['pillar.get']('cis_rocky9:ignore:filesystems') %}
 {% set status = salt['cmd.run']('modprobe -n -v {}'.format(fs)) %}
 {% if status == 'install /bin/true' %}
 

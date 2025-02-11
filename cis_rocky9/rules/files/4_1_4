@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ -f /etc/audit/auditd.conf ]
+then
+  logfile=$(awk -F "=" '/^\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs)
+  perm=$(stat -c "%a" $logfile)
+  if [ $perm -gt 640 ]
+  then
+    chmod u-x,g-wx,o-rwx $logfile
+    chown root:root $logfile
+  fi
+fi

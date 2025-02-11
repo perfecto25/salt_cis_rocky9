@@ -1,13 +1,11 @@
-# 1.3.1 Ensure AIDE is installed
-
-{% set rule = '(1.3.1)' %}
+{% set rule = '(1.3.1) Ensure AIDE is installed' %}
 
 {% if salt['pkg.version']('aide') %}
-{{ rule }} ensure AIDE package is installed:
+{{ rule }}:
   test.succeed_without_changes:
     - name: {{ rule }} AIDE package is installed
 {% else %}
-{{ rule }} ensure AIDE package is installed:
+{{ rule }}:
   pkg.installed:
     - name: aide
 {% endif %}

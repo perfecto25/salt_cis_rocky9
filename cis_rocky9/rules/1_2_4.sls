@@ -1,9 +1,7 @@
-# 1.2.4 - Ensure repo_gpgcheck is globally activated
-
-{% set rule = '(1.2.4)' %}
+{% set rule = '(1.2.4) Ensure repo_gpgcheck is globally activated' %}
 {% if grains.os != "RedHat" %}
 # disabled for Redhat https://access.redhat.com/solutions/7019126
-{{ rule }} ensure repo_gpgcheck is globally activated - dnf.conf:
+{{ rule }}:
   ini.options_present:
     - name: /etc/dnf/dnf.conf
     - separator: '='

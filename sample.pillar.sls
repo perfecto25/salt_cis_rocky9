@@ -20,6 +20,10 @@ cis_rocky9:
       - 1.4.1
       - 1.4.2
       - 1.5.1
+      - 5.2.12 # ssh x11 forwarding
+      - 5.3 # sudo
+      - 5.4 # authselect
+      - 5.5 # password complexity
 
     services: # ignore these services
       - chargen-dgram
@@ -84,13 +88,42 @@ cis_rocky9:
 
   default:
     auditd:
+      backlog_limit: 2000
       space_left_action: email
       action_mail_acct: root
       admin_space_left_action: SUSPEND
       max_log_file_action: ROTATE
     password:
-      pass_max_days: 90
-      pass_min_days: 7
+      pass_max_days: 365
+      pass_min_days: 1
       pass_warn_age: 7
+      minlength: 14
+      minclass: 4
+      deny: 5 # 5.5.1
+      unlock_time: 900 # 5.5.2
+      inactive_lock: 30 # 5.6
     shell:
       timeout: 600
+    sshd:
+      log_level: INFO
+      permit_root_login: prohibit-password
+      hostbased_authentication: no
+      permit_empty_passwords: no
+      permit_user_environment: no
+      ignore_rhosts: yes
+      x11_forwarding: no
+      allow_tcp_forwarding: no
+      banner: /etc/issue.net
+      max_auth_tries: 3
+      max_startups: "10:30:60"
+      max_sessions: 10
+      login_grace_time: 60
+      client_alive_interval: 15
+      client_alive_count_max: 3
+    sudo:
+      log_file: /var/log/sudo.log
+      timeout: 5
+      su_group_name: sugroup # used to create empty su group (5.3.7)
+      su_group_gid: 8501
+
+

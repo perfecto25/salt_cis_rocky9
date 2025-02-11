@@ -1,7 +1,5 @@
-# 1.2.2 - Ensure gpgcheck is globally activated
-
-{% set rule = '(1.2.2)' %}
-{{ rule }} ensure gpgcheck is globally activated - dnf.conf:
+{% set rule = '(1.2.2) Ensure gpgcheck is globally activated' %}
+{{ rule }}:
   ini.options_present:
     - name: /etc/dnf/dnf.conf
     - separator: '='
