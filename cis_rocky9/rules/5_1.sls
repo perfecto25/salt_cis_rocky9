@@ -26,15 +26,14 @@
   'cron.d':       '5.1.7'
 } %}
   
-{% for rule,number in rules.items() %}
-  
+{% for rule,number in rules.items() %}  
 ({{ number }}) Ensure permissions on /etc/{{ rule }} are configured:
   file.directory:
     - name: /etc/{{ rule }}
     - dir_mode: "0700"
     - user: root
     - group: root
-  {% endfor %}
+{% endfor %}
 
 {% set rule = '(5.1.8) Ensure cron is restricted to authorized users' %}
 {{ rule }} - cron.allow:

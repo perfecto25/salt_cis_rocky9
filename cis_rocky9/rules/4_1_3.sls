@@ -55,9 +55,13 @@
 %}
 
 /etc/audit/rules.d/audit.rules:
-  cmd.run:
-    - name: touch /etc/audit/rules.d/cis_rocky9.rules
-    - unless: test -f /etc/audit/rules.d/cis_rocky9.rules
+  file.managed:
+    - name: /etc/audit/rules.d/cis_rocky9.rules
+    - user: root
+    - group: root
+    - mode: "0600"
+    - create: True
+    - makedirs: True
 
 {% for number, rule in rules.items() %}
 {{ number }} - Audit rule "{{ rule }}":

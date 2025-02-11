@@ -101,6 +101,7 @@ cis_rocky9:
       minclass: 4
       deny: 5 # 5.5.1
       unlock_time: 900 # 5.5.2
+      inactive_lock: 30 # 5.6
     shell:
       timeout: 600
     sshd:

@@ -1,0 +1,12 @@
+#!/bin/bash
+set -x
+awk -F: '/^[^:]+:[^!*]/{print $1}' /etc/shadow | while read -r usr; \
+do 
+  d=$(chage --list $usr | grep '^Last password change' | cut -d: -f2 | grep -v 'never$')
+  d="${d# }"
+  change=$(date -d "${d}" +%s)
+  if [[ "$change" -gt "$(date +%s)" ]]
+  then
+    echo "User: ${usr} last password change is in the FUTURE: ${d}"
+  fi
+done
