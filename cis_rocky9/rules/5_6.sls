@@ -44,3 +44,33 @@
 {% set rule = '5.6.2 Ensure system accounts are secured' %}
 {% set retval = salt['cmd.script']('salt://{}/files/5_6_2_audit'.format(slspath), cwd='/opt') %}
 {% if retval['stdout'] %}
+{% for user in retval['stdout'].split() %}
+{{ rule }} - {{ user }}:
+  cmd.run:
+    - name: usermod -s $(command -v nologin) {{user}} && usermod -L {{user}}
+{% endfor %}
+{% endif %}
+
+{% set rule = '5.6.3 Ensure default user shell timeout is 900 seconds or less' %}
+{{ rule }} - bashrc:
+  file.replace:
+    - name: /etc/bashrc
+    - pattern: ^TMOUT=.*
+    - repl: TMOUT={{ salt['pillar.get']('cis_rocky9:default:shell:timeout', 900) }}
+    - append_if_not_found: True
+
+{{ rule }} - profile:
+  file.replace:
+    - name: /etc/profile
+    - pattern: ^TMOUT=.*
+    - repl: TMOUT={{ salt['pillar.get']('cis_rocky9:default:shell:timeout', 900) }}
+    - append_if_not_found: True
+
+{% set rule = '5.6.4 Ensure default user shell timeout is 900 seconds or less' %}
+(5.4.3) Ensure default group for the root account is GID 0:
+  user.present:
+    - name: root
+    - uid: 0
+    - gid: 0
+    - allow_gid_change: True
+{% do salt.log.error(retval['stdout'].split()) -%}

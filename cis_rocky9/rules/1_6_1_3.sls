@@ -1,8 +1,0 @@
-{% set rule = '(1.6.1.3) Ensure SELinux policy is configured' %}
-
-{{ rule }}:
-  file.line:
-    - name: /etc/selinux/config
-    - content: 'SELINUXTYPE=targeted'
-    - match: "^SELINUXTYPE=.*"
-    - mode: Replace
