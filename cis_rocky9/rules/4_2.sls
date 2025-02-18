@@ -25,7 +25,7 @@
   file.replace:
     - name: /etc/systemd/journald.conf
     - pattern: "^ForwardToSyslog.*"
-    - repl: ForwardToSyslog=yes
+    - repl: ForwardToSyslog={{ salt['pillar.get']('cis_rocky9:default:journald:forward_to_syslog', 'no') }}
     - append_if_not_found: True 
 
 {{rule}} - rsyslog service:
@@ -159,23 +159,6 @@
 
 {% endif %} # "ignore"
 
-#-----------------------------------------------------------------------
-
-{% if not "4.2.2.5" in ignore %}
-{% set rule = '(4.2.2.5) Ensure journald is not configured to send logs to rsyslog' %}
-{{rule}} - /etc/systemd/journald.conf:
-  file.replace:
-    - name: /etc/systemd/journald.conf
-    - pattern: "^ForwardToSyslog=.*"
-    - repl: ForwardToSyslog={{ salt['pillar.get']('cis_rocky9:default:journald:forward_to_syslog', 'no') }}
-    - append_if_not_found: True
-
-{{rule}} - systemd journal service:
-  service.running:
-    - name: systemd-journald
-    - watch:
-      - file: {{rule}} - /etc/systemd/journald.conf
-{% endif %} # "ignore"
 
 #-----------------------------------------------------------------------
 
@@ -189,4 +172,5 @@
   cmd.script:
     - source: salt://{{ slspath }}/files/4_2_3_rem
     - cwd: /opt
+{% endif %}
 {% endif %} # "ignore"
