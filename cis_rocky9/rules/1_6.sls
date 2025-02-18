@@ -38,11 +38,28 @@
 #-----------------------------------------------------------------------
 
 {% if not "1.6.1.4" in ignore %}
+
+{% set level = salt['pillar.get']('cis_rocky9:default:selinux:mode', 'enforcing') %}
+
 {% set rule = '(1.6.1.4) Ensure the SELinux mode is not disabled ' %}
-{{ rule }}:
+
+## active enforcement
+{% if not level == "disabled" %}
+{{ rule }} - setenforce {{ level }}:
+  cmd.run:
+    {% if level == "enforcing" %}
+    - name: setenforce 1
+    {% else %}
+    - name: setenforce 0
+    {% endif %}
+    - unless: getenforce | grep -i {{level}}
+{% endif %}
+
+## static config / permanent 
+{{ rule }} - permanent setting:
   file.line:
     - name: /etc/selinux/config
-    - content: 'SELINUX=enforcing'
+    - content: 'SELINUX={{level}}'
     - match: "^SELINUX=.*"
     - mode: Replace
 {% endif %} # "ignore"
@@ -51,15 +68,15 @@
 
 {% if not "1.6.1.6" in ignore %}
 {% set rule = '(1.6.1.6) Ensure no unconfined services exist' %}
-{% set retval = salt['cmd.run_all'](cmd="ps -eZ | grep unconfined_service_t", python_shell=True)['stdout'] %}
-{% if not retval %}
+{% set ret = salt['cmd.run_all'](cmd="ps -eZ | grep unconfined_service_t", python_shell=True)['stdout'] %}
+{% if not ret %}
 {{ rule }}:
   test.succeed_without_changes:
     - name: "{{ rule }} No unconfined daemons exist"
 {% else %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "{{ rule }} unconfined daemons found: \n\n{{retval|replace('system_u', '\n') }} "
+    - name: "{{ rule }} unconfined daemons found: \n\n{{ret|replace('system_u', '\n') }} "
 {% endif %}
 {% endif %} # "ignore"
 

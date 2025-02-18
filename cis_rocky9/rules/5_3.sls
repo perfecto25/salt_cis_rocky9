@@ -18,19 +18,19 @@
     - check_cmd: /usr/sbin/visudo -c -f /etc/sudoers
 
 {% set rule = '(5.3.4) Ensure users provide password for escalation' %}
-{% set retval = salt['cmd.run_all']('grep -r "^[^#].*NOPASSWD" /etc/sudoers.d/*', python_shell=True) %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.run_all']('grep -r "^[^#].*NOPASSWD" /etc/sudoers.d/*', python_shell=True) %}
+{% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "/etc/sudoers.d/* contains NOPASSWD escalation: \n\n{{ retval['stdout']|replace('/etc/sudoers.d', '\n/etc/sudoers.d') }}"
+    - name: "/etc/sudoers.d/* contains NOPASSWD escalation: \n\n{{ ret['stdout']|replace('/etc/sudoers.d', '\n/etc/sudoers.d') }}"
 {% endif %}
 
 {% set rule = '(5.3.5) Ensure re-authentication for privilege escalation is not disabled globally' %}
-{% set retval = salt['cmd.run_all']('grep -r "^[^#].*\!authenticate" /etc/sudoers*', python_shell=True) %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.run_all']('grep -r "^[^#].*\!authenticate" /etc/sudoers*', python_shell=True) %}
+{% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "/etc/sudoers* has re-authentication for privilege escalation disabled: \n\n{{ retval['stdout']|replace('/etc/sudoers', '\n/etc/sudoers') }}"
+    - name: "/etc/sudoers* has re-authentication for privilege escalation disabled: \n\n{{ ret['stdout']|replace('/etc/sudoers', '\n/etc/sudoers') }}"
 {% endif %}
  
 {% set rule = '(5.3.7) Ensure access to the su command is restricted' %}

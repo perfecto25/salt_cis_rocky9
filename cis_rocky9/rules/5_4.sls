@@ -1,8 +1,8 @@
 ## AUTHSELECT config
 
 {% set rule = '(5.4.1) Ensure custom authselect profile is used' %}
-{% set retval = salt['cmd.run_all']("authselect list | grep '^-\s*custom'", python_shell=True) %}
-{% if not retval['stdout'] %}
+{% set ret = salt['cmd.run_all']("authselect list | grep '^-\s*custom'", python_shell=True) %}
+{% if not ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
     - name: Authselect does not have a custom profile enabled

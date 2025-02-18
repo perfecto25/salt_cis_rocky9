@@ -26,7 +26,6 @@ cis_rocky9:
       - 1.6.1.2     # Ensure SELinux is not disabled in bootloader configuration
       - 1.6.1.3     # Ensure SELinux policy is configured
       - 1.6.1.4     # Ensure the SELinux mode is not disabled
-      - 1.6.1.5     # Ensure the SELinux mode is enforcing
       - 1.6.1.6     # Ensure no unconfined services exist
       - 1.6.1.7     # Ensure SETroubleshoot is not installed
       - 1.6.1.8     # Ensure the MCS Translation Service (mcstrans) is not installed
@@ -69,13 +68,6 @@ cis_rocky9:
       - 3.3.9       # Ensure IPv6 router advertisements are not accepted
       - 3.4.1.1     # Ensure nftables is installed
       - 3.4.1.2     # Ensure a single firewall configuration utility is in use 
-      - 3.4.2.1     # Ensure firewalld default zone is set
-      - 3.4.2.2     # Ensure at least one nftables table exists
-      - 3.4.2.3     # Ensure nftables base chains exist 
-      - 3.4.2.4     # Ensure host based firewall loopback traffic is configured
-      - 3.4.2.5     # Ensure firewalld drops unnecessary services and ports 
-      - 3.4.2.6     # Ensure nftables established connections are configured 
-      - 3.4.2.7     # Ensure nftables default deny firewall policy
       - 4.1.1.1     # Ensure auditd is installed
       - 4.1.1.2     # Ensure auditing for processes that start prior to auditd is enabled
       - 4.1.1.3     # Ensure audit_backlog_limit is sufficient
@@ -83,43 +75,19 @@ cis_rocky9:
       - 4.1.2.1     # Ensure audit log storage size is configured
       - 4.1.2.2     # Ensure audit logs are not automatically deleted
       - 4.1.2.3     # Ensure system is disabled when audit logs are full
-      - 4.1.3.1     # Ensure changes to system administration scope (sudoers) is collected
-      - 4.1.3.2     # Ensure actions as another user are always logged
-      - 4.1.3.3     # Ensure events that modify the sudo log file are collected
-      - 4.1.3.4     # Ensure events that modify date and time information are collected
-      - 4.1.3.5     # Ensure events that modify the system's network environment are collected
-      - 4.1.3.6     # Ensure use of privileged commands are collected
-      - 4.1.3.7     # Ensure unsuccessful file access attempts are collected
-      - 4.1.3.8     # Ensure events that modify user/group information are collected
-      - 4.1.3.9     # Ensure discretionary access control permission modification events are collected
-      - 4.1.3.10    # Ensure successful file system mounts are collected
-      - 4.1.3.11    # Ensure session initiation information is collected
-      - 4.1.3.12    # Ensure login and logout events are collected
-      - 4.1.3.13    # Ensure file deletion events by users are collected
-      - 4.1.3.14    # Ensure events that modify the system's Mandatory Access Controls are collected
-      - 4.1.3.15    # Ensure successful and unsuccessful attempts to use the chcon command are recorded
-      - 4.1.3.16    # Ensure successful and unsuccessful attempts to use the setfacl command are recorded
-      - 4.1.3.17    # Ensure successful and unsuccessful attempts to use the chacl command are recorded
-      - 4.1.3.18    # Ensure successful and unsuccessful attempts to use the usermod command are recorded
-      - 4.1.3.19    # Ensure kernel module loading unloading and modification is collected
-      - 4.1.3.20    # Ensure the audit configuration is immutable
-      - 4.1.3.21    # Ensure the running and on disk configuration is the same
-      - 4.1.4.1     # Ensure audit log files are mode 0640 or less permissive
-      - 4.1.4.2     # Ensure only authorized users own audit log files
+      - 4.1.3       # Auditd rules
+      - 4.1.4.1     # Ensure audit log files are mode 0640 or less permissive  (4.1.4.1 - 4.1.4.2)
       - 4.1.4.3     # Ensure only authorized groups are assigned ownership of audit log files
-      - 4.1.4.4     # Ensure the audit log directory is 0750 or more restrictive
-      - 4.1.4.5     # Ensure audit configuration files are 640 or more restrictive
+      - 4.1.4.4     # Ensure the audit log directory is 0750 or more restrictive (4.1.4.4 - 4.1.4.5)
       - 4.1.4.6     # Ensure audit configuration files are owned by root
-      - 4.1.4.7     # Ensure audit configuration files belong to group root
-      - 4.1.4.8     # Ensure audit tools are 755 or more restrictive
-      - 4.1.4.9     # Ensure audit tools are owned by root
-      - 4.1.4.10    # Ensure audit tools belong to group root
+      - 4.1.4.7     # Ensure audit configuration files belong to root
+      - 4.1.4.8     # Ensure audit tools are 755 or more restrictive, owned by root, belong to root (4.1.4.8 - 4.1.4.10)
+
+
       - 4.2.1.1     # Ensure rsyslog is installed
       - 4.2.1.2     # Ensure rsyslog service is enabled
       - 4.2.1.3     # Ensure journald is configured to send logs to rsyslog
       - 4.2.1.4     # Ensure rsyslog default file permissions are configured
-      - 4.2.1.5     # Ensure logging is configured
-      - 4.2.1.6     # Ensure rsyslog is configured to send logs to a remote log host
       - 4.2.1.7     # Ensure rsyslog is not configured to receive logs from a remote client
       - 4.2.2.1.1   # Ensure systemd-journal-remote is installed
       - 4.2.2.1.2   # Ensure systemd-journal-remote is configured
@@ -295,6 +263,8 @@ cis_rocky9:
       deny: 5 # 5.5.1
       unlock_time: 900 # 5.5.2
       inactive_lock: 30 # 5.6
+    selinux:
+      mode: enforcing  # (enforcing | permissive | disabled)
     shell:
       timeout: 900
     sshd:
@@ -317,8 +287,11 @@ cis_rocky9:
       log_file: /var/log/sudo.log
       timeout: 5
       su_group_name: sugroup # used to create empty su group (5.3.7)
-      su_group_gid:
-        8501
+      su_group_gid: 8501
+    journald:
+      compress: yes # 4.2.2.3
+      storage: persistent # 4.2.2.4
+      forward_to_syslog: no # 4.2.2.5
 
         # "1.1.2": "Ensure separate partition exists for /tmp",
     # "1.1.3": "Ensure separate partition exists for /var",

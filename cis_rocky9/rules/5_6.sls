@@ -32,19 +32,18 @@
 
 
 {% set rule = '(5.6.1.5) Ensure all users last password change date is in the past' %}
-{% set retval = salt['cmd.script']('salt://{}/files/5_6_1_5_audit'.format(slspath), cwd='/opt') %}
-{% do salt.log.error(retval['stdout']) -%}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.script']('salt://{}/files/5_6_1_5_audit'.format(slspath), cwd='/opt') %}
+{% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "Users password change date is in the future: \n\n{{ retval['stdout'] }}"
+    - name: "Users password change date is in the future: \n\n{{ ret['stdout'] }}"
 {% endif %}
 
 
 {% set rule = '5.6.2 Ensure system accounts are secured' %}
-{% set retval = salt['cmd.script']('salt://{}/files/5_6_2_audit'.format(slspath), cwd='/opt') %}
-{% if retval['stdout'] %}
-{% for user in retval['stdout'].split() %}
+{% set ret = salt['cmd.script']('salt://{}/files/5_6_2_audit'.format(slspath), cwd='/opt') %}
+{% if ret['stdout'] %}
+{% for user in ret['stdout'].split() %}
 {{ rule }} - {{ user }}:
   cmd.run:
     - name: usermod -s $(command -v nologin) {{user}} && usermod -L {{user}}
@@ -73,4 +72,4 @@
     - uid: 0
     - gid: 0
     - allow_gid_change: True
-{% do salt.log.error(retval['stdout'].split()) -%}
+{% do salt.log.error(ret['stdout'].split()) -%}
