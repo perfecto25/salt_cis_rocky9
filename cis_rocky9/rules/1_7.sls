@@ -4,8 +4,8 @@
 
 {% if not "1.7.1" in ignore %}
 {% set rule = '(1.7.1) Ensure MOTD is configured properly' %}
-{% set retval = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/motd') %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/motd') %}
+{% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
     - name: "{{ rule }} /etc/motd contains OS release information"
@@ -16,8 +16,8 @@
 
 {% if not "1.7.2" in ignore %}
 {% set rule = '(1.7.2) Ensure local login warning banner is configured properly' %}
-{% set retval = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/issue') %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/issue') %}
+{% if ret['stdout'] %}
 {{ rule }} - /etc/issue:
   file.managed:
     - name: /etc/issue
@@ -32,8 +32,8 @@
 
 {% if not "1.7.3" in ignore %}
 {% set rule = '(1.7.3) Ensure remote login warning banner is configured properly' %}
-{% set retval = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/issue.net') %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.script']('salt://{}/files/1_7_audit'.format(slspath), cwd='/opt', args='/etc/issue.net') %}
+{% if ret['stdout'] %}
 {{ rule }} - /etc/issue.net:
   file.managed:
     - name: /etc/issue.net

@@ -10,9 +10,8 @@
     - replace: False 
  
 {% set rule = '(5.2.2) Ensure permissions on SSH private host key files are configured' %}
-{% set retval = salt['cmd.script']('salt://{}/files/5_2_2_audit'.format(slspath), cwd='/opt') %}
-{% do salt.log.error(retval['stdout']) -%}
-{% if retval['stdout'] == "FAIL" %}
+{% set ret = salt['cmd.script']('salt://{}/files/5_2_2_audit'.format(slspath), cwd='/opt') %}
+{% if ret['stdout'] == "FAIL" %}
 {{ rule }}:
   cmd.script:
     - source: salt://{{ slspath }}/files/5_2_2_rem
@@ -20,9 +19,8 @@
 {% endif %}
  
 {% set rule = '(5.2.3) Ensure permissions on SSH public host key files are configured' %}
-{% set retval = salt['cmd.script']('salt://{}/files/5_2_3_audit'.format(slspath), cwd='/opt') %}
-{% do salt.log.error(retval['stdout']) -%}
-{% if retval['stdout'] == "FAIL" %}
+{% set ret = salt['cmd.script']('salt://{}/files/5_2_3_audit'.format(slspath), cwd='/opt') %}
+{% if ret['stdout'] == "FAIL" %}
 {{ rule }}:
   cmd.script:
     - source: salt://{{ slspath }}/files/5_2_3_rem
@@ -101,11 +99,11 @@
     - repl: AllowTcpForwarding {{ salt['pillar.get']('cis_rocky9:default:sshd:allow_tcp_forwarding', 'no') }} 
     - append_if_not_found: True
  
-{% set retval = salt['cmd.run_all']("grep -i '^\s*CRYPTO_POLICY=' /etc/sysconfig/sshd /etc/ssh/sshd_config.d/*.conf", python_shell=True) %}
-{% if retval['stdout'] %}
+{% set ret = salt['cmd.run_all']("grep -i '^\s*CRYPTO_POLICY=' /etc/sysconfig/sshd /etc/ssh/sshd_config.d/*.conf", python_shell=True) %}
+{% if ret['stdout'] %}
 (5.2.14) Ensure system-wide crypto policy is not over-ridden
   test.fail_without_changes:
-    - name: Crypto ciphers are over-ridden {{ retval['stdout'] }}
+    - name: Crypto ciphers are over-ridden {{ ret['stdout'] }}
 {% endif %}
 
 {% set rule = '(5.2.15) Ensure SSH warning banner is configured' %}

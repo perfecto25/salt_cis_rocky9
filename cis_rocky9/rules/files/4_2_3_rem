@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+{
+echo -e "\n- Start remediation - logfiles have appropriate permissions and ownership"
+UID_MIN=$(awk '/^\s*UID_MIN/{print $2}' /etc/login.defs)
+
+find /var/log -type f | while read -r fname; do
+  bname="$(basename "$fname")"
+  fugname="$(stat -Lc "%U %G" "$fname")"
+  funame="$(awk '{print $1}' <<< "$fugname")"
+  fugroup="$(awk '{print $2}' <<< "$fugname")"
+  fuid="$(stat -Lc "%u" "$fname")"
+  fmode="$(stat -Lc "%a" "$fname")"
+
+  case "$bname" in
+    lastlog | lastlog.* | wtmp | wtmp.* | wtmp-* | btmp | btmp.* | btmp-
+    *)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,2,4,6][0,4]\h*$' <<< "$fmode" && echo -e "- changing mode on \"$fname\"" && chmod ug-x,o-wx "$fname"
+      ! grep -Pq -- '^\h*root\h*$' <<< "$funame" && echo -e "- changing owner on \"$fname\"" && chown root "$fname"
+      ! grep -Pq -- '^\h*(utmp|root)\h*$' <<< "$fugroup" && echo -e "-changing group on \"$fname\"" && chgrp root "$fname"
+    ;;
+    secure | auth.log | syslog | messages)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,4]0\h*$' <<< "$fmode" && echo -e "-changing mode on \"$fname\"" && chmod u-x,g-wx,o-rwx "$fname"
+      ! grep -Pq -- '^\h*(syslog|root)\h*$' <<< "$funame" && echo -e "-changing owner on \"$fname\"" && chown root "$fname"
+      ! grep -Pq -- '^\h*(adm|root)\h*$' <<< "$fugroup" && echo -e "-changing group on \"$fname\"" && chgrp root "$fname"
+    ;;
+    SSSD | sssd)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,2,4,6]0\h*$' <<< "$fmode" && echo -e "- changing mode on \"$fname\"" && chmod ug-x,o-rwx "$fname"
+      ! grep -Piq -- '^\h*(SSSD|root)\h*$' <<< "$funame" && echo -e "-changing owner on \"$fname\"" && chown root "$fname"
+      ! grep -Piq -- '^\h*(SSSD|root)\h*$' <<< "$fugroup" && echo -e "-changing group on \"$fname\"" && chgrp root "$fname"
+    ;;
+    gdm | gdm3)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,2,4,6]0\h*$' <<< "$fmode" && echo -e "- changing mode on \"$fname\"" && chmod ug-x,o-rwx
+      ! grep -Pq -- '^\h*root\h*$' <<< "$funame" && echo -e "- changing owner on \"$fname\"" && chown root "$fname"
+      ! grep -Pq -- '^\h*(gdm3?|root)\h*$' <<< "$fugroup" && echo -e "-changing group on \"$fname\"" && chgrp root "$fname"
+    ;;
+    *.journal | *.journal~)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,4]0\h*$' <<< "$fmode" && echo -e "- changing mode on \"$fname\"" && chmod u-x,g-wx,o-rwx "$fname"
+      ! grep -Pq -- '^\h*root\h*$' <<< "$funame" && echo -e "- changing owner on \"$fname\"" && chown root "$fname"
+      ! grep -Pq -- '^\h*(systemd-journal|root)\h*$' <<< "$fugroup" && echo -e "- changing group on \"$fname\"" && chgrp root "$fname"
+    ;;
+    *)
+      ! grep -Pq -- '^\h*[0,2,4,6][0,4]0\h*$' <<< "$fmode" && echo -e "- changing mode on \"$fname\"" && chmod u-x,g-wx,o-rwx "$fname"
+      if [ "$fuid" -ge "$UID_MIN" ] || ! grep -Pq -- '(adm|root|'"$(id -gn "$funame")"')' <<< "$fugroup"
+      then
+        if [ -n "$(awk -v grp="$fugroup" -F: '$1==grp {print $4}' /etc/group)" ] || ! grep -Pq '(syslog|root)' <<< "$funame"
+        then
+          [ "$fuid" -ge "$UID_MIN" ] && echo -e "- changing owner on \"$fname\"" && chown root "$fname"
+          ! grep -Pq -- '^\h*(adm|root)\h*$' <<< "$fugroup" && echo -e "- changing group on \"$fname\"" && chgrp root "$fname"
+        fi
+      fi
+    ;;
+  esac
+done
+echo -e "- End remediation - logfiles have appropriate permissions and ownership\n"
+}
