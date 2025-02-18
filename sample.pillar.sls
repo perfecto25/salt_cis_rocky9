@@ -96,7 +96,7 @@ cis_rocky9:
       - 4.2.2.2     # Ensure journald service is enabled
       - 4.2.2.3     # Ensure journald is configured to compress large log files
       - 4.2.2.4     # Ensure journald is configured to write logfiles to persistent disk
-      - 4.2.2.5     # Ensure journald is not configured to send logs to rsyslog
+      # - 4.2.2.5     # Ensure journald is not configured to send logs to rsyslog (configured in 4.2.1.3)
       - 4.2.2.6     # Ensure journald log rotation is configured per site policy
       - 4.2.2.7     # Ensure journald default file permissions configured
       - 4.2.3       # Ensure all logfiles have appropriate permissions and ownership
