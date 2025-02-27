@@ -132,7 +132,6 @@ cis_rocky9:
       - 5.2.20      # Ensure SSH Idle Timeout Interval is configured
       - 5.3.1       # Ensure sudo is installed
       - 5.3.2       # Ensure sudo commands use pty
-      - 5.3.3       # Ensure sudo log file exists
       - 5.3.4       # Ensure users must provide password for escalation
       - 5.3.5       # Ensure re-authentication for privilege escalation is not disabled globally
       - 5.3.6       # Ensure sudo authentication timeout is configured correctly
@@ -292,6 +291,8 @@ cis_rocky9:
       compress: yes # 4.2.2.3
       storage: persistent # 4.2.2.4
       forward_to_syslog: no # 4.2.2.5
+    umask: 
+      value: "027"
 
         # "1.1.2": "Ensure separate partition exists for /tmp",
     # "1.1.3": "Ensure separate partition exists for /var",
