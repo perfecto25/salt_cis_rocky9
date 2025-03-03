@@ -1,0 +1,49 @@
+#!/bin/bash
+
+
+files=$(rpm -Va --nomtime --nosize --nomd5 --nolinkto)
+output=()
+
+while read -r line
+do
+  file=$(echo "${line}" | awk {'print $NF'})
+  if [ -n "${file}" ]
+  then
+    # check if binary, ignore config and log file modifications
+    binary=$(file "${file}" | grep -i "executable")
+    if [ -n "${binary}" ]
+    then
+      rpm=$(rpm -qf "${file}")
+      rpm_files=$(rpm -V "${rpm}")
+      IFS=$'\n'
+      
+      for rpm_file in ${rpm_files}
+      do
+        settings=$(echo "${rpm_file}" | awk {'print $1'})
+        rpm_file=$(echo "${rpm_file}" | awk {'print $NF'})
+        
+        # check if file from the RPM is a binary
+        if [ -n "$(file ${rpm_file} | grep -i executable)" ]
+        then
+          description=" - "
+          if echo "${settings}" | grep -q "M"; then description="${description}, file was modified";fi
+          if echo "${settings}" | grep -q "S"; then description="${description}, file size differs";fi
+          if echo "${settings}" | grep -q "5"; then description="${description}, MD5 checksum differs";fi
+          if echo "${settings}" | grep -q "U"; then description="${description}, file ownership differs";fi
+          if echo "${settings}" | grep -q "G"; then description="${description}, file group owner differs";fi
+          if echo "${settings}" | grep -q "T"; then description="${description}, file time (mtime) differs";fi
+          if echo "${settings}" | grep -q "L"; then description="${description}, a mismatch on a link";fi
+          if echo "${settings}" | grep -q "D"; then description="${description}, major and minor version numbers differ on a device file";fi
+
+          description=$(echo $description | sed 's/,//')
+          output+=("${rpm_file} ${description}")
+        fi
+      done
+    fi
+  fi
+done <<< "${files}"
+
+for element in "${output[@]}"
+do
+  echo $element
+done

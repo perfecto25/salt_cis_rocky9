@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cut -d: -f3 /etc/group | sort | uniq -d | while read x
+do
+  echo -e "\nDuplicate GID ($x) in /etc/group"
+done

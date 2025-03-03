@@ -35,7 +35,7 @@
 {% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "World writable files found:\n\n{% for file in ret['stdout'].split('\n') %} - {{ file }}\n{% endfor %}"
+    - name: "World writable files found (first 20 results):\n\n{% for file in ret['stdout'].split('\n')[:20] %} - {{ file }}\n{% endfor %}"
 {% endif %}
 {% endif %} # "ignore"
 
@@ -47,7 +47,7 @@
 {% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
-    - name: "Un-owned files found:\n\n{% for file in ret['stdout'].split('\n') %} - {{ file }}\n{% endfor %}"
+    - name: "Un-owned files found (first 20 results):\n\n{% for file in ret['stdout'].split('\n')[:20] %} - {{ file }}\n{% endfor %}"
 {% endif %}
 {% endif %} # "ignore"
 
@@ -56,7 +56,7 @@
 
 {% if not "6.1.11" in ignore %}
 {% set rule = '(6.1.11) Ensure no ungrouped files or directories exist' %}
-{% set ret = salt['cmd.run_all'](cmd="df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup | cu", python_shell=True) %}
+{% set ret = salt['cmd.run_all'](cmd="df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup", python_shell=True) %}
 {% if ret['stdout'] %}
 {{ rule }}:
   test.fail_without_changes:
@@ -66,33 +66,51 @@
 
 #-----------------------------------------------------------------------
 
-{% if not "1.6.1.4" in ignore %}
-
-
-
-
+{% if not "6.1.12" in ignore %}
+{% set rule = '(6.1.12) Ensure sticky bit is set on all world-writable directories' %}
+{% set ret = salt['cmd.run_all'](cmd="df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null", python_shell=True) %}
+{% if ret['stdout'] %}
+{{ rule }}:
+  test.fail_without_changes:
+    - name: "Sticky bit not set on world-writeable directories (first 20 results):\n\n{% for file in ret['stdout'].split('\n')[:20] %} - {{ file }}\n{% endfor %}\n\n(Changing to add sticky bit)\n\n"
+  cmd.run:
+    - name: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs -I '{}' chmod a+t '{}'
+{% endif %}
 {% endif %} # "ignore"
 
 #-----------------------------------------------------------------------
 
-{% if not "1.6.1.6" in ignore %}
+{% if not "6.1.13" in ignore %}
+{% set rule = '(6.1.13) Audit SUID executables' %}
 
-
-
+{% set ret = salt['cmd.run_all'](cmd="df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -4000", python_shell=True) %}
+{% if ret['stdout'] %}
+{{ rule }}:
+  test.fail_without_changes:
+    - name: "SUID executables found (first 20 results):\n\n{% for file in ret['stdout'].split('\n')[:20] %} - {{ file }}\n{% endfor %}"
+{% endif %}
 {% endif %} # "ignore"
 
 #-----------------------------------------------------------------------
 
-{% if not "1.6.1.7" in ignore %}
-
-
-
+{% if not "6.1.14" in ignore %}
+{% set rule = '(6.1.14) Audit SGID executables' %}
+{% set ret = salt['cmd.run_all'](cmd="df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -2000", python_shell=True) %}
+{% if ret['stdout'] %}
+{{ rule }}:
+  test.fail_without_changes:
+    - name: "SGID executables found (first 20 results):\n\n{% for file in ret['stdout'].split('\n')[:20] %} - {{ file }}\n{% endfor %}"
+{% endif %}
 {% endif %} # "ignore"
 
 #-----------------------------------------------------------------------
 
-{% if not "1.6.1.8" in ignore %}
-
-
-
+{% if not "6.1.15" in ignore %}
+{% set rule = '(6.1.15) Audit system file permissions' %}
+{% set ret = salt['cmd.script']('salt://{}/files/6_1_15_audit'.format(slspath), cwd='/opt') %}
+{% if ret['stdout'] %}
+{{ rule }}:
+  test.fail_without_changes:
+    - name: "Executable binaries on disk differ from original RPM package:\n\n{% for file in ret['stdout'].split('\n') %} - {{ file }}\n{% endfor %}"
+{% endif %}
 {% endif %} # "ignore"

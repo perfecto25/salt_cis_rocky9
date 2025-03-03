@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cut -d: -f1 /etc/group | sort | uniq -d | while read -r x
+do
+  echo -e "\nDuplicate group name $x in /etc/group"
+done
