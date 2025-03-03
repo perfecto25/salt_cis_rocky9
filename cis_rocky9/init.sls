@@ -3,199 +3,33 @@
 # include all Rules
 {% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
 include:
-  # - formula.cis_rocky9.rules.1_1
-  # - formula.cis_rocky9.rules.1_2
-  # - formula.cis_rocky9.rules.1_3
-  # - formula.cis_rocky9.rules.1_4
-  # - formula.cis_rocky9.rules.1_5
-  # - formula.cis_rocky9.rules.1_6
-  # - formula.cis_rocky9.rules.1_7
-  # - formula.cis_rocky9.rules.1_8
-  # - formula.cis_rocky9.rules.1_9
-  # - formula.cis_rocky9.rules.1_10
-  # - formula.cis_rocky9.rules.2_1
-  # - formula.cis_rocky9.rules.2_2
-  - formula.cis_rocky9.rules.2_3
-  # - formula.cis_rocky9.rules.*
+   - formula.cis_rocky9.rules.1_1
+   - formula.cis_rocky9.rules.1_2
+   - formula.cis_rocky9.rules.1_3
+   - formula.cis_rocky9.rules.1_4
+   - formula.cis_rocky9.rules.1_5
+   - formula.cis_rocky9.rules.1_6
+   - formula.cis_rocky9.rules.1_7
+   - formula.cis_rocky9.rules.1_8
+   - formula.cis_rocky9.rules.1_9
+   - formula.cis_rocky9.rules.1_10
+   - formula.cis_rocky9.rules.2_1
+   - formula.cis_rocky9.rules.2_2
+   - formula.cis_rocky9.rules.2_3
+   - formula.cis_rocky9.rules.3_1
+   - formula.cis_rocky9.rules.3_2
+   - formula.cis_rocky9.rules.3_3
+   - formula.cis_rocky9.rules.3_4
+   - formula.cis_rocky9.rules.4_1
+   - formula.cis_rocky9.rules.4_2
+   - formula.cis_rocky9.rules.5_1
+   - formula.cis_rocky9.rules.5_2
+   - formula.cis_rocky9.rules.5_3
+   - formula.cis_rocky9.rules.5_4
+   - formula.cis_rocky9.rules.5_5
+   - formula.cis_rocky9.rules.5_6
+   - formula.cis_rocky9.rules.6_1
+   - formula.cis_rocky9.rules.6_2
 
 {% endif %}
     
-    # "1.8.3":    {"Ensure GDM disable-user-list option is enabled": True},
-    # "1.8.4":    {"Ensure GDM screen locks when user is idle": True},
-    # "1.8.5":    {"Ensure GDM screen locks cannot be overridden": True},
-    # "1.8.6":    {"Ensure GDM automatic mounting of removable media is disabled": True },
-    # "1.8.7":    {"Ensure GDM disabling automatic mounting of removable media is not overriden": True},
-    # "1.8.8":    {"Ensure GDM autorun-never is enabled": True},
-    # "1.8.9":    {"Ensure GDM autorun-never is not overriden": True},
-    # "1.8.10":   {"Ensure XDCMP is not enabled": True},
-    # "1.9":      {"Ensure updates, patches and additional security software are installed": True},
-    # "1.10":     {"Ensure system-wide crypto policy is not legacy": True}
-    # "2.1.1":    { "Ensure time synchronization is in use": True},
-    # "2.1.2":    {"Ensure chrony is configured": True},
-    # "2.2":      { "Ensure unnecessary packages are not installed, services disabled": True}, # 2.2.1 - 2.2.14, 2.2.16 - 2.2.18
-    # "2.2.15":   { "Ensure mail transfer agent is configured for local-only mode": True},
-    # "2.3":      { "Ensure service clients are not installed": True}, # 2.3.1 - 2.3.4
-    # "2.4":      {"Ensure nonessential services listen on system are removed or masked": True},
-    # "3.1.1":    { "IPv6 configuration": True },
-    # "3.1.2":    {"Ensure wireless interfaces are disabled":  True},
-    # "3.1.3":    { "Ensure TIPC is disabled": True},
-    # "3.2.1":    { "Ensure IP forwarding is disabled": True}.
-    # "3.2.2":    {"Ensure packet redirect sending is disabled": True},
-    # "3.3.1":    {"Ensure source routed packets are not accepted": True}
-    # "3.3.2":    {"Ensure ICMP redirects are not accepted": True},
-    # "3.3.3":    { "Ensure secure ICMP redirects are not accepted": True},
-    # "3.3.4":    {"Ensure suspicious packets are logged": True},
-    # "3.3.5":    {"Ensure broadcast ICMP requests are ignored": True},
-    # "3.3.6":    {"Ensure bogus ICMP responses are ignored": True},
-    # "3.3.7":    {"Ensure Reverse Path Filtering is enabled": True},
-    # "3.3.8":    {"Ensure TCP SYN Cookies is enabled": True},
-    # "3.3.9":    {"Ensure IPv6 router advertisements are not accepted": True},
-    # "3.4.1.1":  {"Ensure nftables is installed": True},
-    # "3.4.1.2":  {"Ensure a single firewall configuration utility is in use ": True},
-    # "3.4.2.1":  {"Ensure firewalld default zone is set": True},
-    # "3.4.2.2":  {"Ensure at least one nftables table exists": True},
-    # "3.4.2.3":  {"Ensure nftables base chains exist ": True},
-    # "3.4.2.4":  {"Ensure host based firewall loopback traffic is configured": True},
-    # "3.4.2.5":  {"Ensure firewalld drops unnecessary services and ports ": True},
-    # "3.4.2.6":  {"Ensure nftables established connections are configured ": True},
-    # "3.4.2.7":  {"Ensure nftables default deny firewall policy": True},
-    # "4.1.1.1":  {"Ensure auditd is installed": True},
-    # "4.1.1.2":  {"Ensure auditing for processes that start prior to auditd is enabled": True},
-    # "4.1.1.3":  {"Ensure audit_backlog_limit is sufficient": True},
-    # "4.1.1.4":  {"Ensure auditd service is enabled": True},
-    # "4.1.2.1":  {"Ensure audit log storage size is configured": True},
-    # "4.1.2.2":  {"Ensure audit logs are not automatically deleted": True},
-    # "4.1.2.3":  {"Ensure system is disabled when audit logs are full": True},
-    # "4.1.3.1":  {"Ensure changes to system administration scope (sudoers) is collected": True},
-    # "4.1.3.2":  {"Ensure actions as another user are always logged": True},
-    # "4.1.3.3":  {"Ensure events that modify the sudo log file are collected": True},
-    # "4.1.3.4":  {"Ensure events that modify date and time information are collected": True},
-    # "4.1.3.5":  {"Ensure events that modify the system's network environment are collected": True},
-    # "4.1.3.6":  {"Ensure use of privileged commands are collected": True},
-    # "4.1.3.7":  {"Ensure unsuccessful file access attempts are collected": True},
-    # "4.1.3.8":  {"Ensure events that modify user/group information are collected": True},
-    # "4.1.3.9":  {"Ensure discretionary access control permission modification events are collected": True},
-    # "4.1.3.10": {"Ensure successful file system mounts are collected": True},
-    # "4.1.3.11": {"Ensure session initiation information is collected": True},
-    # "4.1.3.12": {"Ensure login and logout events are collected": True},
-    # "4.1.3.13": {"Ensure file deletion events by users are collected": True},
-    # "4.1.3.14": {"Ensure events that modify the system's Mandatory Access Controls are collected": True},
-    # "4.1.3.15": {"Ensure successful and unsuccessful attempts to use the chcon command are recorded": True},
-    # "4.1.3.16": {"Ensure successful and unsuccessful attempts to use the setfacl command are recorded": True},
-    # "4.1.3.17": {"Ensure successful and unsuccessful attempts to use the chacl command are recorded": True},
-    # "4.1.3.18": {"Ensure successful and unsuccessful attempts to use the usermod command are recorded": True},
-    # "4.1.3.19": {"Ensure kernel module loading unloading and modification is collected": True},
-    # "4.1.3.20": {"Ensure the audit configuration is immutable": True},
-    # "4.1.3.21": {"Ensure the running and on disk configuration is the same": True},
-    # "4.1.4.1": {"Ensure audit log files are mode 0640 or less permissive": True},
-    # "4.1.4.2": {"Ensure only authorized users own audit log files": True},
-    # "4.1.4.3": {"Ensure only authorized groups are assigned ownership of audit log files": True},
-    # "4.1.4.4": {"Ensure the audit log directory is 0750 or more restrictive": True},
-    # "4.1.4.5": {"Ensure audit configuration files are 640 or more restrictive": True},
-    # "4.1.4.6": {"Ensure audit configuration files are owned by root": True},
-    # "4.1.4.7": {"Ensure audit configuration files belong to group root": True},
-    # "4.1.4.8": {"Ensure audit tools are 755 or more restrictive": True},
-    # "4.1.4.9": {"Ensure audit tools are owned by root": True},
-    # "4.1.4.10": {"Ensure audit tools belong to group root": True},
-    # "4.2.1.1": {"Ensure rsyslog is installed": True},
-    # "4.2.1.2": {"Ensure rsyslog service is enabled": True},
-    # "4.2.1.3": {"Ensure journald is configured to send logs to rsyslog": True},
-    # "4.2.1.4": {"Ensure rsyslog default file permissions are configured": True},
-    # "4.2.1.5": {"Ensure logging is configured": True},
-    # "4.2.1.6": {"Ensure rsyslog is configured to send logs to a remote log host": True},
-    # "4.2.1.7": {"Ensure rsyslog is not configured to receive logs from a remote client": True},
-    # "4.2.2.1.1": {"Ensure systemd-journal-remote is installed": True},
-    # "4.2.2.1.2": {"Ensure systemd-journal-remote is configured": True},
-    # "4.2.2.1.3": {"Ensure systemd-journal-remote is enabled": True},
-    # "4.2.2.1.4": {"Ensure journald is not configured to receive logs from a remote client": True},
-    # "4.2.2.2": {"Ensure journald service is enabled": True},
-    # "4.2.2.3": {"Ensure journald is configured to compress large log files": True},
-    # "4.2.2.4": {"Ensure journald is configured to write logfiles to persistent disk": True},
-    # "4.2.2.5": {"Ensure journald is not configured to send logs to rsyslog": True},
-    # "4.2.2.6": {"Ensure journald log rotation is configured per site policy": True},
-    # "4.2.2.7": {"Ensure journald default file permissions configured": True},
-    # "4.2.3": {"Ensure all logfiles have appropriate permissions and ownership": True},
-    # "4.3": {"Ensure logrotate is configured": True},
-    # "5.1.1": {"Ensure cron daemon is enabled": True},
-    # "5.1.2": {"Ensure permissions on /etc/crontab are configured": True},
-    # "5.1.3": {"Ensure permissions on /etc/cron.hourly are configured": True},
-    # "5.1.4": {"Ensure permissions on /etc/cron.daily are configured": True},
-    # "5.1.5": {"Ensure permissions on /etc/cron.weekly are configured": True},
-    # "5.1.6": {"Ensure permissions on /etc/cron.monthly are configured": True},
-    # "5.1.7": {"Ensure permissions on /etc/cron.d are configured": True},
-    # "5.1.8": {"Ensure cron is restricted to authorized users": True},
-    # "5.1.9": {"Ensure at is restricted to authorized users": True},
-    # "5.2.1": {"Ensure permissions on /etc/ssh/sshd_config are configured": True},
-    # "5.2.2": {"Ensure permissions on SSH private host key files are configured": True},
-    # "5.2.3": {"Ensure permissions on SSH public host key files are configured": True},
-    # "5.2.4": {"Ensure SSH access is limited": True},
-    # "5.2.5": {"Ensure SSH LogLevel is appropriate": True},
-    # "5.2.6": {"Ensure SSH PAM is enabled": True},
-    # "5.2.7": {"Ensure SSH root login is disabled": True},
-    # "5.2.8": {"Ensure SSH HostbasedAuthentication is disabled": True},
-    # "5.2.9": {"Ensure SSH PermitEmptyPasswords is disabled": True},
-    # "5.2.10": {"Ensure SSH PermitUserEnvironment is disabled": True},
-    # "5.2.11": {"Ensure SSH IgnoreRhosts is enabled": True},
-    # "5.2.12": {"Ensure SSH X11 forwarding is disabled": True},
-    # "5.2.13": {"Ensure SSH AllowTcpForwarding is disabled": True},
-    # "5.2.14": {"Ensure system-wide crypto policy is not over-ridden": True},
-    # "5.2.15": {"Ensure SSH warning banner is configured": True},
-    # "5.2.16": {"Ensure SSH MaxAuthTries is set to 4 or less": True},
-    # "5.2.17": {"Ensure SSH MaxStartups is configured": True},
-    # "5.2.18": {"Ensure SSH MaxSessions is set to 10 or less": True},
-    # "5.2.19": {"Ensure SSH LoginGraceTime is set to one minute or less": True},
-    # "5.2.20": {"Ensure SSH Idle Timeout Interval is configured": True},
-    # "5.3.1": {"Ensure sudo is installed": True},
-    # "5.3.2": {"Ensure sudo commands use pty": True},
-    # "5.3.3": {"Ensure sudo log file exists": True},
-    # "5.3.4": {"Ensure users must provide password for escalation": True},
-    # "5.3.5": {"Ensure re-authentication for privilege escalation is not disabled globally": True},
-    # "5.3.6": {"Ensure sudo authentication timeout is configured correctly": True},
-    # "5.3.7": {"Ensure access to the su command is restricted": True},
-    # "5.4.1": {"Ensure custom authselect profile is used": True},
-    # "5.4.2": {"Ensure authselect includes with-faillock": True},
-    # "5.5.1": {"Ensure password creation requirements are configured": True},
-    # "5.5.2": {"Ensure lockout for failed password attempts is configured": True},
-    # "5.5.3": {"Ensure password reuse is limited": True},
-    # "5.5.4": {"Ensure password hashing algorithm is SHA-512 or yescrypt": True},
-    # "5.6.1.1": {"Ensure password expiration is 365 days or less": True},
-    # "5.6.1.2": {"Ensure minimum days between password changes is configured": True},
-    # "5.6.1.3": {"Ensure password expiration warning days is 7 or more": True},
-    # "5.6.1.4": {"Ensure inactive password lock is 30 days or less": True},
-    # "5.6.1.5": {"Ensure all users last password change date is in the past": True},
-    # "5.6.2": {"Ensure system accounts are secured": True},
-    # "5.6.3": {"Ensure default user shell timeout is 900 seconds or less": True},
-    # "5.6.4": {"Ensure default group for the root account is GID 0": True},
-    # "5.6.5": {"Ensure default user umask is 027 or more restrictive": True},
-    # "5.6.6": {"Ensure root password is set": True},
-    # "6.1.1": {"Ensure permissions on /etc/passwd are configured": True},
-    # "6.1.2": {"Ensure permissions on /etc/passwd- are configured": True},
-    # "6.1.3": {"Ensure permissions on /etc/group are configured": True},
-    # "6.1.4": {"Ensure permissions on /etc/group- are configured": True},
-    # "6.1.5": {"Ensure permissions on /etc/shadow are configured": True},
-    # "6.1.6": {"Ensure permissions on /etc/shadow- are configured": True},
-    # "6.1.7": {"Ensure permissions on /etc/gshadow are configured": True},
-    # "6.1.8": {"Ensure permissions on /etc/gshadow- are configured": True},
-    # "6.1.9": {"Ensure no world writable files exist": True},
-    # "6.1.10": {"Ensure no unowned files or directories exist": True},
-    # "6.1.11": {"Ensure no ungrouped files or directories exist": True},
-    # "6.1.12": {"Ensure sticky bit is set on all world-writable directories": True},
-    # "6.1.13": {"Audit SUID executables": True},
-    # "6.1.14": {"Audit SGID executables": True},
-    # "6.1.15": {"Audit system file permissions": True},
-    # "6.2.1": {"Ensure accounts in /etc/passwd use shadowed passwords": True},
-    # "6.2.2": {"Ensure /etc/shadow password fields are not empty": True},
-    # "6.2.3": {"Ensure all groups in /etc/passwd exist in /etc/group": True},
-    # "6.2.4": {"Ensure no duplicate UIDs exist": True},
-    # "6.2.5": {"Ensure no duplicate GIDs exist": True},
-    # "6.2.6": {"Ensure no duplicate user names exist": True},
-    # "6.2.7": {"Ensure no duplicate group names exist": True},
-    # "6.2.8": {"Ensure root PATH Integrity": True},
-    # "6.2.9": {"Ensure root is the only UID 0 account": True},
-    # "6.2.10": {"Ensure local interactive user home directories exist": True},
-    # "6.2.11": {"Ensure local interactive users own their home directories": True},
-    # "6.2.12": {"Ensure local interactive user home directories are mode 750 or more restrictive": True},
-    # "6.2.13": {"Ensure no local interactive user has .netrc files": True},
-    # "6.2.14": {"Ensure no local interactive user has .forward files": True},
-    # "6.2.15": {"Ensure no local interactive user has .rhosts files": True},
-    # "6.2.16": {"Ensure local interactive user dot files are not group or world writable": True},

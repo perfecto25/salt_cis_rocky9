@@ -21,7 +21,7 @@
 {% if not "3.1.2" in ignore %}
 {% set rule = '(3.1.2) Ensure wireless interfaces are disabled' %}
 {% set ret = salt['cmd.script']('salt://{}/files/3_1_2_audit'.format(slspath), cwd='/opt') %}
-{% do salt.log.error(ret) -%}
+{# do salt.log.error(ret) -#}
 {% if ret['stdout'] == "FAIL" %}
 {{ rule }}:
   cmd.script:

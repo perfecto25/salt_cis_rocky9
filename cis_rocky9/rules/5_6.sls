@@ -125,8 +125,6 @@
     - pattern: "umask [0-9][0-9][0-9].*"
     - repl: "umask {{ salt['pillar.get']('cis_rocky9:default:umask:value', '027') }}" 
     - append_if_not_found: True
-
-{% do salt.log.error(rule) -%}
 {% endif %} 
 
 #-----------------------------------------------------------------------
@@ -139,7 +137,6 @@
   test.fail_without_changes:
     - name: "Root account password is not set or is locked."
 {% endif %}
-
 {% endif %}
 
 #-----------------------------------------------------------------------

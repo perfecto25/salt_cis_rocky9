@@ -4,9 +4,7 @@
 {% set ignore = salt['pillar.get']("cis_rocky9:ignore:rules") %}
 
 {% set pkgs = salt['pkg.list_pkgs']() %}
-
 {% if 'cronie' in pkgs %}
-
 {% if not "5.1.1" in ignore %}
 {% set rule = '(5.1.1) Ensure cron daemon is enabled' %}
 {{ rule }}:
@@ -14,7 +12,7 @@
     - name: crond
     - enable: True
 {% endif %}
-
+{% endif %}
 #-----------------------------------------------------------------------
 
 {% if not "5.1.2" in ignore %}

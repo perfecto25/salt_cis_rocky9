@@ -166,7 +166,6 @@
 {% set rule = '(4.2.3)  Ensure all logfiles have appropriate permissions and ownership' %}
 
 {% set ret = salt['cmd.script']('salt://{}/files/4_2_3_audit'.format(slspath), cwd='/opt') %}
-{% do salt.log.error("---423---") -%}
 {% if ret['stdout'] == "FAIL" %}
 {{rule}}:
   cmd.script:

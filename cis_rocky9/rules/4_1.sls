@@ -248,7 +248,6 @@ auditd_service:
 {% set rule = '(4.1.4.6) Ensure audit configuration files are owned by root' %}
 {% set ret = salt['cmd.run_all'](cmd="find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) ! -user root", python_shell=True)['stdout'] %}
 {% if ret %}
-{% do salt.log.error(ret) -%}
 {% for file in ret.split('\n') %}
 {{ rule }} - {{ file }}:
   file.managed:
