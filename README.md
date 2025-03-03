@@ -11,26 +11,37 @@ CIS formula cannot remediate automatically:
 
 - mounting of separate partitions like /home (too many variables, ie size and FS type of mount, etc, this needs to be done manually by the sysadmin)
 - missing user home directories
-
-
-## Prerequisites
-you will need the following yum packages installed on your Centos 7 host
-
-1. policycoreutils
-1. policycoreutils-python
-1. augeas
+- missing passwords
+- duplicate group or user IDs
 
 ## To check a host for CIS compliance
 
     salt [target] state.sls cis_rocky9 test=true
 
-## Skip a Rule for all hosts (Global),
-to skip a specific Rule + remediation for a specific rule for all hosts, simply set the rule to False in the  ```init.sls```
+## To check a host for a specific CIS ruleset only
 
-    {% set rules = {
-        '1.1.1':   { 'Disable unused filesystems':                                          False },
-        '1.1.2':   { 'Ensure separate partition exists for /tmp':                           False },
+    salt [target] state.sls cis_rocky9.rules.1_1 (check only sections 1.1)
 
+## Skip a Rule,
+to skip a specific Rule + remediation for a specific rule for all hosts, add a pillar value under cis_rocky9 (see sample.pillar.sls)
+
+    cis_rocky9:
+      ignore:
+        rules: # ignore these rules
+          - 1.1.1       # disable unused file systems
+
+## Skip a section for all hosts
+
+to skip an entire section, comment out the section in init.sls, ie
+
+    # include all Rules
+    {% if grains.os_family == "RedHat" and grains.osmajorrelease == 9 %}
+    include:
+      - formula.cis_rocky9.rules.1_1
+      - formula.cis_rocky9.rules.1_2
+      # - formula.cis_rocky9.rules.1_3
+      - formula.cis_rocky9.rules.1_4
+      #- formula.cis_rocky9.rules.1_5
 
 ## Ignore Rules, Package or Service checks on a per-host basis
 

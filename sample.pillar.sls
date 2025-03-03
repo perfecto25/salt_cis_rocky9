@@ -82,8 +82,6 @@ cis_rocky9:
       - 4.1.4.6     # Ensure audit configuration files are owned by root
       - 4.1.4.7     # Ensure audit configuration files belong to root
       - 4.1.4.8     # Ensure audit tools are 755 or more restrictive, owned by root, belong to root (4.1.4.8 - 4.1.4.10)
-
-
       - 4.2.1.1     # Ensure rsyslog is installed
       - 4.2.1.2     # Ensure rsyslog service is enabled
       - 4.2.1.3     # Ensure journald is configured to send logs to rsyslog
