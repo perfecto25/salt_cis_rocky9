@@ -25,7 +25,7 @@
   file.replace:
     - name: /etc/systemd/journald.conf
     - pattern: "^ForwardToSyslog.*"
-    - repl: ForwardToSyslog={{ salt['pillar.get']('cis_rocky9:default:journald:forward_to_syslog', 'no') }}
+    - repl: ForwardToSyslog={{ salt['pillar.get']('cis_rocky9:default:journald:forward_to_syslog', 'yes') }}
     - append_if_not_found: True 
 
 {{rule}} - rsyslog service:

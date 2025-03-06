@@ -218,15 +218,27 @@ cis_rocky9:
       - ntalk
 
     packages: # ignore these packages
-      - ypbind
-      - telnet
-      - rsh
-      - talk
-      - avahi-daemon
+      - xorg-x11-server-common
+      - avahi
       - cups
-      - openldap-clients
-      - xorg-x11-server-Xorg
+      - dhcp-server
+      - bind
+      - vsftpd
+      - tftp-server
+      - nginx
+      - httpd
+      - dovecot
+      - cyrus-imapd
       - samba
+      - squid
+      - net-snmp
+      - telnet-server
+      - dnsmasq
+      - nfs-utils
+      - rpcbind
+      - rsync-daemon
+
+
 
     protocols: # ignore these protocols
       - dccp
@@ -267,12 +279,12 @@ cis_rocky9:
     sshd:
       log_level: INFO
       permit_root_login: prohibit-password
-      hostbased_authentication: no
-      permit_empty_passwords: no
-      permit_user_environment: no
-      ignore_rhosts: yes
-      x11_forwarding: no
-      allow_tcp_forwarding: no
+      hostbased_authentication: 'no'
+      permit_empty_passwords: 'no'
+      permit_user_environment: 'no'
+      ignore_rhosts: 'yes'
+      x11_forwarding: 'no'
+      allow_tcp_forwarding: 'no'
       banner: /etc/issue.net
       max_auth_tries: 3
       max_startups: "10:30:60"
@@ -286,8 +298,8 @@ cis_rocky9:
       su_group_name: sugroup # used to create empty su group (5.3.7)
       su_group_gid: 8501
     journald:
-      compress: yes # 4.2.2.3
+      compress: 'yes' # 4.2.2.3
       storage: persistent # 4.2.2.4
-      forward_to_syslog: no # 4.2.2.5
+      forward_to_syslog: 'yes' # 4.2.1.3
     umask: 
       value: "027"
